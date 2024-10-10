@@ -1,0 +1,130 @@
+<!-- ANGIE XIMENA 0LVERA ALVAREZ-->
+<!--ACTIVIDAD 8 CREAR UNA LISTA DE TAREAS DONDE EL USUARIO PUEDA AGREGAR, ELIMINAR Y MARCAR COMO COMPLETADA CADA TAREA.-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #680909;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            width: 250px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            width: 300px;
+        }
+
+        li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #dc3545;
+        }
+
+        li button {
+            background-color: #dc3545;
+        }
+
+        li button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Tareas</h1>
+
+    <input type="text" id="newTask" placeholder="Nueva tarea">
+    <button id="addTask">Agregar</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        let tasks = [];
+
+        function updateTaskList() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="${task.completed ? 'completed' : ''}">${task.text}</span>
+                    <button onclick="deleteTask(${index})">Eliminar</button>
+                `;
+                li.querySelector('span').onclick = () => toggleTask(index);
+                taskList.appendChild(li);
+            });
+        }
+
+        function addTask() {
+            const newTask = document.getElementById('newTask').value.trim();
+            if (newTask) {
+                tasks.push({ text: newTask, completed: false });
+                document.getElementById('newTask').value = '';
+                updateTaskList();
+            } else {
+                alert('Por favor, escribe una tarea.');
+            }
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            updateTaskList();
+        }
+
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            updateTaskList();
+        }
+
+        document.getElementById('addTask').addEventListener('click', addTask);
+    </script>
+</body>
+</html>
